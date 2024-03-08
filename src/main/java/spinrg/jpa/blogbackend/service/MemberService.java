@@ -16,6 +16,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
+
     @Transactional
     public Long createMember(Member member) {
         validateDuplication(member); // 중복 회원 검출

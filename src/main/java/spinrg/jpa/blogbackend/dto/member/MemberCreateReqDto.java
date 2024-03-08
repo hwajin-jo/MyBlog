@@ -1,4 +1,4 @@
-package spinrg.jpa.blogbackend.dto;
+package spinrg.jpa.blogbackend.dto.member;
 
 import lombok.Data;
 import spinrg.jpa.blogbackend.entity.Address;

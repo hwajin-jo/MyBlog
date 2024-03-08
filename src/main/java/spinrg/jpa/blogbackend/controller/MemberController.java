@@ -1,16 +1,14 @@
 package spinrg.jpa.blogbackend.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import spinrg.jpa.blogbackend.dto.MemberCreateReqDto;
-import spinrg.jpa.blogbackend.dto.MemberCreateRespDto;
+import org.springframework.web.bind.annotation.*;
+import spinrg.jpa.blogbackend.dto.member.*;
 import spinrg.jpa.blogbackend.entity.Address;
 import spinrg.jpa.blogbackend.entity.Member;
 import spinrg.jpa.blogbackend.service.MemberService;
+
+import java.util.List;
 
 import static spinrg.jpa.blogbackend.constant.ResultCode.*;
 
@@ -18,8 +16,20 @@ import static spinrg.jpa.blogbackend.constant.ResultCode.*;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
-
     private final MemberService memberService;
+
+    @GetMapping("/members")
+    private MemberGetRespDto getMembers() {
+        try {
+            List<Member> members = memberService.findAll();
+
+            return new MemberGetRespDto(SUCCESS, "success", members);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("An error occurred in MemberController.getMembers()");
+            return new MemberGetRespDto(UNKNOWN_ERR, "unKnown error.", null);
+        }
+    }
 
     @PostMapping("/members/new")
     private MemberCreateRespDto createMember(@RequestBody MemberCreateReqDto memberCreateReqDto) {
@@ -30,8 +40,10 @@ public class MemberController {
             memberService.createMember(member);
 
             return new MemberCreateRespDto(SUCCESS, "success");
+        } catch (IllegalStateException e) {
+            log.error(e.getLocalizedMessage());
+            return new MemberCreateRespDto(EXIST_ERR, e.getLocalizedMessage());
         } catch (Exception e) {
-            e.printStackTrace();
             log.error("An error occurred in MemberController.createMember()");
             return new MemberCreateRespDto(UNKNOWN_ERR, "unKnown error.");
         }
