@@ -31,4 +31,11 @@ public class MemberRepository {
                 .setParameter("email", email)
                 .getResultList();
     }
+
+
+    public Member findByName(String name) {
+        return em.createQuery("select m from Member m where name =: name", Member.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
 }

@@ -1,4 +1,4 @@
-package spinrg.jpa.blogbackend.dto.member;
+package spinrg.jpa.blogbackend.dto.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import spinrg.jpa.blogbackend.constant.ResultCode;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class MemberUpdateRespDto {
+@AllArgsConstructor
+public class PostDeleteRespDto {
     private ResultCode code;
     private String msg;
 }

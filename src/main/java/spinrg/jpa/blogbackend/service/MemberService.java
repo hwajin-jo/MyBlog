@@ -16,15 +16,18 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public Member findOne(String name) {
+        return memberRepository.findByName(name);
+    }
+
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
 
     @Transactional
-    public Long createMember(Member member) {
+    public void createMember(Member member) {
         validateDuplication(member); // 중복 회원 검출
         memberRepository.insertMember(member);
-        return member.getId();
     }
 
     private void validateDuplication(Member member) {
