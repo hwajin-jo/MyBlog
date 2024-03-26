@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @NoArgsConstructor
@@ -14,9 +18,12 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "comment_id", fetch = LAZY, cascade = CascadeType.ALL)
+    private List<Reply> replyList = new ArrayList<>();
 
     private String title;
     private String content;

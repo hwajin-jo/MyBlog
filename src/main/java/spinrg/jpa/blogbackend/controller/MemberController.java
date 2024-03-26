@@ -19,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members")
-    private MemberGetRespDto getMembers() {
+    public MemberGetRespDto getMembers() {
         try {
             List<Member> members = memberService.findAll();
 
@@ -32,7 +32,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    private MemberCreateRespDto createMember(@RequestBody MemberCreateReqDto memberCreateReqDto) {
+    public MemberCreateRespDto createMember(@RequestBody MemberCreateReqDto memberCreateReqDto) {
         try {
             Address address = new Address(memberCreateReqDto.getAddress().getCity(), memberCreateReqDto.getAddress().getStreet(), memberCreateReqDto.getAddress().getZipcode());
 

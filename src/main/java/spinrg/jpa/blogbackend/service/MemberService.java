@@ -8,16 +8,20 @@ import spinrg.jpa.blogbackend.entity.Member;
 import spinrg.jpa.blogbackend.repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-
     private final MemberRepository memberRepository;
 
-    public Member findOne(String name) {
-        return memberRepository.findByName(name);
+    public Member findMemberById(Long id) {
+        Optional<Member> findMember = memberRepository.findById(id);
+        if (findMember.isEmpty()) {
+            throw new IllegalStateException("잘못된 사용자 입니다.");
+        }
+        return findMember.get();
     }
 
     public List<Member> findAll() {
@@ -27,7 +31,7 @@ public class MemberService {
     @Transactional
     public void createMember(Member member) {
         validateDuplication(member); // 중복 회원 검출
-        memberRepository.insertMember(member);
+        memberRepository.save(member);
     }
 
     private void validateDuplication(Member member) {

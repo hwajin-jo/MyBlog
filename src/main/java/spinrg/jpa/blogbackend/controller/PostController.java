@@ -26,7 +26,7 @@ public class PostController {
     @PostMapping("/posts/new")
     private PostCreateRespDto createPosts(@RequestBody PostCreateReqDto postCreateReqDto) {
         try {
-            Member member = memberService.findOne(postCreateReqDto.getAuthor());
+            Member member = memberService.findMemberById(postCreateReqDto.getMember_id());
             Post post = new Post(member, postCreateReqDto.getTitle(), postCreateReqDto.getContent(), LocalDateTime.now(), LocalDateTime.now());
 
             postService.insertPost(post);

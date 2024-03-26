@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class PostCreateReqDto {
     private String title;
     private String content;
-    private String author;
+    private Long member_id;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 }
