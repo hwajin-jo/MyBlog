@@ -7,15 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import spinrg.jpa.blogbackend.dto.reply.ReplyCreateReqDto;
 import spinrg.jpa.blogbackend.dto.reply.ReplyCreateRespDto;
-import spinrg.jpa.blogbackend.entity.Member;
-import spinrg.jpa.blogbackend.entity.Post;
-import spinrg.jpa.blogbackend.entity.Reply;
-import spinrg.jpa.blogbackend.service.MemberService;
-import spinrg.jpa.blogbackend.service.PostService;
 import spinrg.jpa.blogbackend.service.ReplyService;
 
-import static spinrg.jpa.blogbackend.constant.ResultCode.SUCCESS;
-import static spinrg.jpa.blogbackend.constant.ResultCode.UNKNOWN_ERR;
+import static spinrg.jpa.blogbackend.constant.ResultCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +23,9 @@ public class ReplyController {
             replyService.insertComment(replyCreateReqDto);
 
             return new ReplyCreateRespDto(SUCCESS, "success");
+        } catch (IllegalStateException e) {
+            log.error(e.getLocalizedMessage());
+            return new ReplyCreateRespDto(EXIST_ERR, e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
             log.error("An error occurred in ReplyController.createReply()");

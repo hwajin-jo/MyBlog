@@ -31,6 +31,9 @@ public class PostController {
 
             postService.insertPost(post);
             return new PostCreateRespDto(SUCCESS, "success");
+        } catch (IllegalStateException e) {
+            log.error(e.getLocalizedMessage());
+            return new PostCreateRespDto(EXIST_ERR, e.getLocalizedMessage());
         } catch (Exception e) {
             e.printStackTrace();
             log.error("An error occurred in PostController.createPosts()");

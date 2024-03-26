@@ -12,6 +12,7 @@ import spinrg.jpa.blogbackend.repository.PostRepository;
 import spinrg.jpa.blogbackend.repository.ReplyRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,11 +25,14 @@ public class ReplyService {
 
     @Transactional
     public void insertComment(ReplyCreateReqDto replyCreateReqDto) {
-        Member member = memberRepository.findById(replyCreateReqDto.getMember_id()).get();
-        Post post = postRepository.findById(replyCreateReqDto.getPost_id()).get();
+        Optional<Member> findMember = memberRepository.findById(replyCreateReqDto.getMember_id());
+        Optional<Post> findPost = postRepository.findById(replyCreateReqDto.getPost_id());
 
-        Reply reply = new Reply(member, post, replyCreateReqDto.getContent(), LocalDateTime.now(), LocalDateTime.now());
-
-        replyRepository.save(reply);
+        if (findMember.isPresent() && findPost.isPresent()) {
+            Reply reply = new Reply(findMember.get(), findPost.get(), replyCreateReqDto.getContent(), LocalDateTime.now(), LocalDateTime.now());
+            replyRepository.save(reply);
+        } else {
+            throw new IllegalStateException("잘못된 댓글 쓰기 입니다.");
+        }
     }
 }
