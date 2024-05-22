@@ -22,8 +22,8 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "comment_id", fetch = LAZY, cascade = CascadeType.ALL)
-    private List<Reply> replyList = new ArrayList<>();
+//    @OneToMany(mappedBy = "comment_id", fetch = LAZY, cascade = CascadeType.ALL)
+//    private List<Reply> replyList = new ArrayList<>();
 
     private String title;
     private String content;
